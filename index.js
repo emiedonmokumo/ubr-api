@@ -11,7 +11,7 @@ import cors from 'cors';
 import { fileURLToPath } from 'url';
 import path from 'path';
 // import authenticate from './middleware/authMiddleware.js';
-// import bodyParser from 'body-parser';
+import bodyParser from 'body-parser';
 
 dotenv.config();
 connectDB();
@@ -60,7 +60,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use(express.json());
-// app.use(bodyParser.json());
+app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
