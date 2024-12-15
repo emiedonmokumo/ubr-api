@@ -10,7 +10,7 @@ import connectDB from './config/db.js';
 import cors from 'cors';
 import { fileURLToPath } from 'url';
 import path from 'path';
-import authenticate from './middleware/authMiddleware.js';
+// import authenticate from './middleware/authMiddleware.js';
 // import bodyParser from 'body-parser';
 
 dotenv.config();
@@ -67,9 +67,9 @@ app.use(cors());
 // Serve static Swagger UI assets
 app.use('/swagger-static', express.static(path.join(__dirname, 'node_modules', 'swagger-ui-dist')));
 
-app.get('/', authenticate, (req, res)=>{
+app.get('/', (req, res)=>{
     try {
-        res.status(200).json({ message: 'Welcome to API of Universal Basic Resources', user: req.user })
+        res.status(200).json({ message: 'Welcome to API of Universal Basic Resources'})
     } catch (error) {
         res.status(500).json({ error })
     }
