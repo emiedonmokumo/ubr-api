@@ -53,7 +53,9 @@ router.get('/', authenticate, getUser)
  *               about:
  *                 type: string
  *               trending:
- *                 type: boolean
+ *                 type: array
+ *                 items:
+ *                   type: string
  *               categories:
  *                 type: array
  *                 items:
@@ -82,7 +84,9 @@ router.get('/', authenticate, getUser)
  *                           type: object
  *                           properties:
  *                             trending:
- *                               type: boolean
+ *                               type: array
+ *                               items:
+ *                                  type: string
  *                             categories:
  *                               type: array
  *                               items:
