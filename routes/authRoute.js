@@ -9,7 +9,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/login/custom:
+ * /api/auth/login/custom:
  *   post:
  *     summary: Custom login using email and password.
  *     tags: [Authentication]
@@ -49,7 +49,7 @@ router.post('/login/custom', customLogin);
 
 /**
  * @swagger
- * /api/otp:
+ * /api/auth/otp:
  *   put:
  *     summary: Send a verification OTP to the user's email.
  *     tags: [Authentication]
@@ -75,7 +75,7 @@ router.put('/otp', sendOtpCode);
 
 /**
  * @swagger
- * /api/otp/verify:
+ * /api/auth/otp/verify:
  *   put:
  *     summary: Verify the OTP code sent to the user's email.
  *     tags: [Authentication]
@@ -117,7 +117,7 @@ router.put('/otp/verify', verifyCode);
 
 /**
  * @swagger
- * /api/google:
+ * /api/auth/google:
  *   post:
  *     summary: Authenticate user with Google account.
  *     tags: [Authentication]
