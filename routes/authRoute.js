@@ -12,45 +12,41 @@ const router = express.Router();
  * @swagger
  * /api/auth/signup/custom:
  *   post:
- *     summary: Create a new user account and send a verification code via email
- *     tags: [Authentication]
- *     description: This endpoint allows users to sign up by providing their email and password. A verification code is sent to the user's email for further validation.
+ *     summary: Create a new user account
+ *     description: Register a new user with an email and password. Sends a verification code to the user's email and returns a JSON Web Token (JWT) for authentication.
+ *     tags:
+ *       - Authentication
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - email
+ *               - password
  *             properties:
  *               email:
  *                 type: string
- *                 example: user@example.com
+ *                 format: email
+ *                 description: User's email address
  *               password:
  *                 type: string
- *                 example: mySecurePassword123
+ *                 format: password
+ *                 description: User's password
  *     responses:
  *       200:
- *         description: User created successfully, and verification code sent.
+ *         description: Account created successfully. A verification code was sent to the user's email.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 newUser:
- *                   type: object
- *                   properties:
- *                     email:
- *                       type: string
- *                     otpCode:
- *                       type: string
- *                 token:
- *                   type: string
- *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
  *                 message:
  *                   type: string
- *                   example: "Account created and code sent!"
+ *                   example: Account created and code sent!
  *       400:
- *         description: User already exists
+ *         description: Bad request. The user already exists or the request data is invalid.
  *         content:
  *           application/json:
  *             schema:
@@ -58,9 +54,9 @@ const router = express.Router();
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "User already Exist"
+ *                   example: User already exists
  *       500:
- *         description: Internal server error
+ *         description: Internal server error.
  *         content:
  *           application/json:
  *             schema:
@@ -68,7 +64,7 @@ const router = express.Router();
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Error message"
+ *                   example: An error occurred
  */
 router.post('/signup/custom', createAccount)
 

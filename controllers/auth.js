@@ -22,6 +22,8 @@ export const createAccount = async (req, res) => {
             password: hashedPassword,
             otpCode: verificationCode
         })
+        await newUser.save()
+
 
         // Email options for verification code
         const mailOptions = {
@@ -34,7 +36,6 @@ export const createAccount = async (req, res) => {
         // Send the verification email
         await transporter.sendMail(mailOptions);
 
-        await newUser.save()
 
         // If authentication is successful, generate and send the token
         const token = jwt.sign(
@@ -42,7 +43,7 @@ export const createAccount = async (req, res) => {
             process.env.JWT_SECRET, // Secret key
             { expiresIn: '1h' } // Expiration time (optional)
         );
-        res.status(200).json({ newUser, token, message: 'Account created and code sent!' });
+        res.status(200).json({ message: 'Account created and code sent!' });
     } catch (error) {
         console.log(error)
         res.status(500).json({ message: error })
