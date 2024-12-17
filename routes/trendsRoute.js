@@ -66,7 +66,7 @@ router.get('/', authenticate, getTrends)
 
 /**
  * @swagger
- * /search:
+ * /api/trends/search:
  *   get:
  *     summary: Fetch subreddit trends
  *     description: Retrieve popular subreddits related to a specific search query.
@@ -82,15 +82,6 @@ router.get('/', authenticate, getTrends)
  *     responses:
  *       200:
  *         description: Successfully retrieved trends.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               example:
- *                 subreddits: [
- *                   { name: 'javascript', subscribers: 1000000 },
- *                   { name: 'webdev', subscribers: 500000 }
- *                 ]
  *       400:
  *         description: Bad request. Query parameter 'q' is required.
  *         content:
