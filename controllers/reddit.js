@@ -1,18 +1,12 @@
-import Snoowrap from "snoowrap";
-import dotenv from 'dotenv'
-dotenv.config()
-
-export const reddit = new Snoowrap({
-    userAgent: 'UBR', // Customize with your app name and version
-    clientId: process.env.REDDIT_ID, // Your Client ID
-    clientSecret: process.env.REDDIT_SECRET, // Your Client Secret
-    accessToken: process.env.REDDIT_ACCESS_TOKEN,
-});
-
+import { reddit } from '../config/reddit.js';
 
 export const redditTrend = async (req, res) => {
     try {
-        const subreddits = await reddit.getPopularSubreddits({ limit: 10 });
+        // const subreddits = await reddit.getPopularSubreddits({ limit: 10 });
+        const response = await reddit.get('/r/popular', { limit: 20 });
+        // console.log(response)
+        // const trendingSubreddits = response.data.children.map(post => post.data.subreddit_name_prefixed);
+
         // // Extract necessary data
         // const trends = subreddits.map((subreddit) => ({
 
@@ -26,9 +20,9 @@ export const redditTrend = async (req, res) => {
         //     date: new Date(subreddit.created * 1000).getDate()
         // }));
 
-        res.json(subreddits);
+        res.json(response);
     } catch (error) {
-        console.error('Error fetching Reddit trends:', error.message);
+        console.error(error);
         res.status(500).json({ success: false, message: 'Failed to fetch Reddit trends.' });
     }
 }
@@ -38,7 +32,10 @@ export const getSingleSubreddit = async (req, res) => {
     const { subredditName } = req.params; // Assuming you are passing the subreddit ID in the URL as a parameter
     try {
         // Fetch subreddit details by ID
-        const subreddit = await reddit.getSubreddit(subredditName).fetch();
+
+        const subreddit = await reddit.get(`/r/${subredditName}`, { limit: 10 });
+
+        // console.log(subreddit)
 
         res.json(subreddit);
     } catch (error) {

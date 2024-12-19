@@ -62,7 +62,7 @@ const router = express.Router()
  *                   type: string
  *                   example: "An unexpected error occurred while fetching trends."
  */
-router.get('/', authenticate, getTrends)
+router.get('/', getTrends)
 
 /**
  * @swagger
@@ -103,7 +103,7 @@ router.get('/search', authenticate, searchTrends)
 
 
 // Debugging
-router.get('/reddit', authenticate, redditTrend)
-router.get('/reddit/:subredditName', authenticate, getSingleSubreddit)
+router.get('/reddit', redditTrend)
+router.get('/reddit/:subredditName', getSingleSubreddit)
 
 export default router;

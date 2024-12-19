@@ -1,10 +1,10 @@
 import googleTrends from 'google-trends-api'
-import { reddit } from './reddit.js';
+import { reddit } from '../config/reddit.js';
 
 export const getTrends = async (req, res) => {
     try {
         // Fetch popular subreddits (fetching 5 popular subreddits as an example)
-        const subredditTrends = await reddit.getPopularSubreddits({ limit: 50 });
+        const subredditTrends = await reddit.get('/r/popular', { limit: 20 });
 
         // Fetch Google Trends data
         const result = await googleTrends.dailyTrends({
@@ -27,13 +27,13 @@ export const getTrends = async (req, res) => {
             })),
 
             // Combine Reddit Trends
-            ...subredditTrends.map(subreddit => ({
-                name: subreddit.display_name,
-                trafficVolume: subreddit.subscribers,
-                type: 'reddit',  // Add a type to distinguish Reddit subreddits
-                description: subreddit.public_description || 'No description available',  // Add subreddit description or placeholder
-                trendDate: subreddit.created_utc
-            })),
+            ...subredditTrends.data.children.map(post => ({
+                name: post.data.subreddit_name_prefixed,
+                trafficVolume: post.data.subscribers,
+                type: 'reddit',  // Add a type to distinguish Reddit trends
+                description: post.data.title,
+                trendDate: post.data.created_utc
+            }))
         ];
 
         // Send the uniform combined response
