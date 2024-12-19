@@ -6,6 +6,26 @@ import transporter from '../config/nodemailer.js';
 dotenv.config()
 
 
+export const resetPassword = async (req, res) => {
+    try {
+        const { email, password, otpCode } = req.body;
+
+        const user = await User.findOne({ email })
+        if(!user) return res.status(404).json({ message: 'User not found' });
+
+        const isMatched = user.otpCode == otpCode
+        if (!isMatched) return res.status(400).json({ message: 'Invalid Verification Code' });
+
+        const hashedPassword = await bcrypt.hash(password, 10)
+        user.password = hashedPassword;
+        user.otpCode = undefined;
+        await user.save();
+        
+    } catch (error) {
+        res.status(500).json({ message: error })
+    }
+}
+
 export const createAccount = async (req, res) => {
     try {
         const { email, password } = req.body;

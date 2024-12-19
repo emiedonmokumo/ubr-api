@@ -4,7 +4,8 @@ import {
     googleAuth,
     sendOtpCode,
     verifyCode,
-    createAccount
+    createAccount,
+    resetPassword
 } from '../controllers/auth.js';
 const router = express.Router();
 
@@ -216,5 +217,44 @@ router.put('/otp/verify', verifyCode);
  *         description: Internal server error.
  */
 router.post('/google', googleAuth);
+
+/**
+ * @swagger
+ * /reset-password:
+ *   post:
+ *     summary: Reset user password
+ *     description: Resets the user's password after verifying the OTP code.
+ *     tags:
+ *       - Authentication
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: The email address of the user.
+ *                 example: user@example.com
+ *               password:
+ *                 type: string
+ *                 description: The new password to be set for the user.
+ *                 example: newpassword123
+ *               otpCode:
+ *                 type: string
+ *                 description: The OTP code sent to the user's email.
+ *                 example: '123456'
+ *     responses:
+ *       200:
+ *         description: Password reset successful.
+ *       400:
+ *         description: Invalid OTP code.
+ *       404:
+ *         description: User not found.
+ *       500:
+ *         description: Internal server error.
+ */
+router.post('/reset-password', resetPassword)
 
 export default router;
