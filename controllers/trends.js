@@ -9,35 +9,36 @@ export const getTrends = async (req, res) => {
         // Fetch Google Trends data
         const result = await googleTrends.dailyTrends({
             geo: 'US', // Specify the country code for the trends
+            
         });
 
         const googleTrendsData = JSON.parse(result);
-        const googleDailySearch = googleTrendsData.default.trendingSearchesDays[0].trendingSearches;
-        const googleTrendDate = googleTrendsData.default.trendingSearchesDays[0].date;
+        // const googleDailySearch = googleTrendsData.default.trendingSearchesDays[0].trendingSearches;
+        // const googleTrendDate = googleTrendsData.default.trendingSearchesDays[0].date;
 
-        // Uniformly combine both data sources
-        const combinedTrends = [
-            // Combine Google Trends
-            ...googleDailySearch.map(search => ({
-                name: search.title.query,
-                trafficVolume: search.trafficVolume,
-                type: 'google',  // Add a type to distinguish Google trends
-                description: search.exploreLink || 'No description available', // Add a link or placeholder
-                trendDate: googleTrendDate
-            })),
+        // // Uniformly combine both data sources
+        // const combinedTrends = [
+        //     // Combine Google Trends
+        //     ...googleDailySearch.map(search => ({
+        //         name: search.title.query,
+        //         trafficVolume: search.trafficVolume,
+        //         type: 'google',  // Add a type to distinguish Google trends
+        //         description: search.exploreLink || 'No description available', // Add a link or placeholder
+        //         trendDate: googleTrendDate
+        //     })),
 
-            // Combine Reddit Trends
-            ...subredditTrends.data.children.map(post => ({
-                name: post.data.subreddit_name_prefixed,
-                trafficVolume: post.data.subscribers,
-                type: 'reddit',  // Add a type to distinguish Reddit trends
-                description: post.data.title,
-                trendDate: post.data.created_utc
-            }))
-        ];
+        //     // Combine Reddit Trends
+        //     ...subredditTrends.data.children.map(post => ({
+        //         name: post.data.subreddit_name_prefixed,
+        //         trafficVolume: post.data.subscribers,
+        //         type: 'reddit',  // Add a type to distinguish Reddit trends
+        //         description: post.data.title,
+        //         trendDate: post.data.created_utc
+        //     }))
+        // ];
 
         // Send the uniform combined response
-        res.json(combinedTrends);
+        res.json(googleTrendsData);
     } catch (error) {
         // Handle any errors that occur during the fetch or processing
         console.error('Error fetching trends:', error);
@@ -49,14 +50,14 @@ export const getTrends = async (req, res) => {
 
 
 export const searchTrends = async (req, res) => {
-    const { q } = req.query;
+    const { q } = req.body;
     if (!q) {
         return res.status(400).json({ error: "A search query ('q') is required." });
     }
 
     try {
         // Fetch popular subreddits based on the query
-        const subredditTrends = await reddit.get(`/r/${q}`, { limit: 20 });
+        // const subredditTrends = await reddit.get(`/r/${q}`, { limit: 20 });
         const result = await googleTrends.interestOverTime({ keyword: q });
 
         const googleTrendsData = JSON.parse(result);

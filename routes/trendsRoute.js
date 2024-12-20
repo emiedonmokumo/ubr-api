@@ -67,29 +67,33 @@ router.get('/', getTrends)
 /**
  * @swagger
  * /api/trends/search:
- *   get:
+ *   post:
  *     summary: Fetch subreddit trends
  *     description: Retrieve popular subreddits related to a specific search query.
  *     tags:
  *       - Trends
- *     parameters:
- *       - in: query
- *         name: q
- *         required: true
- *         description: The search query to find subreddit trends.
- *         schema:
- *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               q:
+ *                 type: string
+ *                 description: The search query to find trends.
+ *                 example: "technology"
  *     responses:
  *       200:
  *         description: Successfully retrieved trends.
  *       400:
- *         description: Bad request. Query parameter 'q' is required.
+ *         description: Bad request. Query parameter 'q' is required in the request body.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               example:
- *                 error: "A search query ('q') is required."
+ *                 error: "A search query ('q') is required in the request body."
  *       500:
  *         description: Internal server error.
  *         content:
@@ -99,7 +103,7 @@ router.get('/', getTrends)
  *               example:
  *                 error: "An unexpected error occurred while fetching trends."
  */
-router.get('/search', searchTrends)
+router.post('/search', searchTrends)
 
 
 // Debugging
