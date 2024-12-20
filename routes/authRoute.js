@@ -190,15 +190,10 @@ router.put('/otp', sendOtpCode);
  *           schema:
  *             type: object
  *             properties:
- *               email:
+ *               token:
  *                 type: string
- *                 example: user@gmail.com
- *               picture:
- *                 type: string
- *                 example: https://example.com/profile.jpg
- *               name:
- *                 type: string
- *                 example: John Doe
+ *                 description: Google ID token from the frontend.
+ *                 example: eyJhbGciOiJSUzI1NiIsImtpZCI6Ij...
  *     responses:
  *       200:
  *         description: Successfully authenticated with Google.
@@ -210,11 +205,26 @@ router.put('/otp', sendOtpCode);
  *                 user:
  *                   type: object
  *                   description: User information.
+ *                   properties:
+ *                     name:
+ *                       type: string
+ *                     email:
+ *                       type: string
+ *                     image:
+ *                       type: string
  *                 token:
  *                   type: string
  *                   description: JWT token.
  *       500:
  *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Authentication failed."
  */
 router.post('/google', googleAuth);
 
