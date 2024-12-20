@@ -135,47 +135,47 @@ router.post('/login/custom', customLogin);
  */
 router.put('/otp', sendOtpCode);
 
-// /**
-//  * @swagger
-//  * /api/auth/otp/verify:
-//  *   put:
-//  *     summary: Verify the OTP code sent to the user's email.
-//  *     tags: [Authentication]
-//  *     requestBody:
-//  *       required: true
-//  *       content:
-//  *         application/json:
-//  *           schema:
-//  *             type: object
-//  *             properties:
-//  *               email:
-//  *                 type: string
-//  *                 example: user@example.com
-//  *               otpCode:
-//  *                 type: integer
-//  *                 example: 12345
-//  *     responses:
-//  *       200:
-//  *         description: OTP verified successfully.
-//  *         content:
-//  *           application/json:
-//  *             schema:
-//  *               type: object
-//  *               properties:
-//  *                 user:
-//  *                   type: object
-//  *                   description: User information.
-//  *                 token:
-//  *                   type: string
-//  *                   description: JWT token.
-//  *       400:
-//  *         description: Invalid verification code.
-//  *       404:
-//  *         description: User not found.
-//  *       500:
-//  *         description: Internal server error.
-//  */
-// router.put('/otp/verify', verifyCode);
+/**
+ * @swagger
+ * /api/auth/otp/verify:
+ *   put:
+ *     summary: Verify the OTP code sent to the user's email.
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: user@example.com
+ *               otpCode:
+ *                 type: integer
+ *                 example: 12345
+ *     responses:
+ *       200:
+ *         description: OTP verified successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 user:
+ *                   type: object
+ *                   description: User information.
+ *                 token:
+ *                   type: string
+ *                   description: JWT token.
+ *       400:
+ *         description: Invalid verification code.
+ *       404:
+ *         description: User not found.
+ *       500:
+ *         description: Internal server error.
+ */
+router.put('/otp/verify', verifyCode);
 
 /**
  * @swagger
