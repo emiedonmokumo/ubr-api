@@ -242,9 +242,9 @@ router.post('/google', googleAuth);
  *                 description: The new password to be set for the user.
  *                 example: newpassword123
  *               otpCode:
- *                 type: string
+ *                 type: number
  *                 description: The OTP code sent to the user's email.
- *                 example: '123456'
+ *                 example: 123456
  *     responses:
  *       200:
  *         description: Password reset successful.
