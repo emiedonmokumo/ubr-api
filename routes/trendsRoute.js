@@ -99,7 +99,7 @@ router.get('/', getTrends)
  *               example:
  *                 error: "An unexpected error occurred while fetching trends."
  */
-router.get('/search', authenticate, searchTrends)
+router.get('/search', searchTrends)
 
 
 // Debugging

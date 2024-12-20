@@ -133,13 +133,14 @@ export const googleAuth = async (req, res) => {
 
         } else {
             const token = jwt.sign(
-                { id: newUser._id }, // Payload (user info)
+                { id: user._id }, // Payload (user info)
                 process.env.JWT_SECRET, // Secret key
                 { expiresIn: '1h' } // Expiration time (optional)
             );
             return res.status(200).json({ user, token });
         };
     } catch (error) {
+        console.log(error)
         res.status(500).json({ message: error })
     }
 };

@@ -56,10 +56,14 @@ export const searchTrends = async (req, res) => {
 
     try {
         // Fetch popular subreddits based on the query
-        const subredditTrends = await reddit.getSubreddit(q).fetch();
+        const subredditTrends = await reddit.get(`/r/${q}`, { limit: 20 });
+        const result = await googleTrends.interestOverTime({ keyword: q });
+
+        const googleTrendsData = JSON.parse(result);
+        // console.log(googleTrendsData)
 
         // Send the uniform combined response
-        res.json(subredditTrends);
+        res.json(googleTrendsData);
     } catch (error) {
         // Handle any errors that occur during the fetch or processing
         console.error('Error fetching trends:', error);
