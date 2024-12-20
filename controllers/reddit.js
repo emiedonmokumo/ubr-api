@@ -4,6 +4,7 @@ export const redditTrend = async (req, res) => {
     try {
         // const subreddits = await reddit.getPopularSubreddits({ limit: 10 });
         const response = await reddit.get('/r/popular', { limit: 20 });
+        
         // console.log(response)
         // const trendingSubreddits = response.data.children.map(post => post.data.subreddit_name_prefixed);
 

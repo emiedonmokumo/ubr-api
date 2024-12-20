@@ -62,7 +62,7 @@ const router = express.Router()
  *                   type: string
  *                   example: "An unexpected error occurred while fetching trends."
  */
-router.get('/daily', authenticate, dailyTrends)
+router.get('/daily', dailyTrends)
 
 /**
  * @swagger
@@ -104,6 +104,49 @@ router.get('/daily', authenticate, dailyTrends)
  *                 error: "An unexpected error occurred while fetching trends."
  */
 router.post('/search', authenticate, searchTrends)
+
+
+/**
+ * @swagger
+ * /api/trends/contents:
+ *   get:
+ *     summary: Get the latest news articles
+ *     tags:
+ *          - Trends
+ *     description: Fetch the latest news articles from multiple sources, sorted by publication date.
+ *     responses:
+ *       200:
+ *         description: A list of news articles
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   source:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       name:
+ *                         type: string
+ *                   author:
+ *                     type: string
+ *                   title:
+ *                     type: string
+ *                   description:
+ *                     type: string
+ *                   url:
+ *                     type: string
+ *                   publishedAt:
+ *                     type: string
+ *                   content:
+ *                     type: string
+ *       500:
+ *         description: Failed to fetch trends
+ */
+router.get('/contents', getContents)
 
 
 // Debugging
