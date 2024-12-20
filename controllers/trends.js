@@ -28,7 +28,7 @@ export const searchContent = async (req, res) => {
             pageSize: 200, // Number of articles per page
         });
 
-        res.status(200).json(response.articles);
+        res.status(200).json(response.articles[1]);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Failed to fetch trends.' });
