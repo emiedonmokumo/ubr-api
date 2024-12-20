@@ -3,7 +3,9 @@ import dotenv from 'dotenv'
 import User from '../models/User.js';
 import bcrypt from 'bcryptjs'
 import transporter from '../config/nodemailer.js';
+import { OAuth2Client } from 'google-auth-library';
 dotenv.config()
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 
 export const resetPassword = async (req, res) => {
@@ -11,7 +13,7 @@ export const resetPassword = async (req, res) => {
         const { email, password, otpCode } = req.body;
 
         const user = await User.findOne({ email })
-        if(!user) return res.status(404).json({ message: 'User not found' });
+        if (!user) return res.status(404).json({ message: 'User not found' });
 
         const isMatched = user.otpCode == otpCode
         if (!isMatched) return res.status(400).json({ message: 'Invalid Verification Code' });
@@ -20,7 +22,7 @@ export const resetPassword = async (req, res) => {
         user.password = hashedPassword;
         user.otpCode = undefined;
         await user.save();
-        
+
     } catch (error) {
         res.status(500).json({ message: error })
     }
@@ -59,7 +61,7 @@ export const createAccount = async (req, res) => {
 
         // If authentication is successful, generate and send the token
         const token = jwt.sign(
-            { id: newUser.id }, // Payload (user info)
+            { id: newUser._id }, // Payload (user info)
             process.env.JWT_SECRET, // Secret key
             { expiresIn: '1h' } // Expiration time (optional)
         );
@@ -87,7 +89,7 @@ export const customLogin = async (req, res) => {
 
         // If authentication is successful, generate and send the token
         const token = jwt.sign(
-            { id: user.id }, // Payload (user info)
+            { id: user._id }, // Payload (user info)
             process.env.JWT_SECRET, // Secret key
             { expiresIn: '1h' } // Expiration time (optional)
         );
@@ -99,31 +101,38 @@ export const customLogin = async (req, res) => {
 
 
 export const googleAuth = async (req, res) => {
+    const { token } = req.body;
     try {
-        const { email, picture, name } = req.body;
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: process.env.GOOGLE_CLIENT_ID,  // Replace with your client ID
+        });
+        const payload = ticket.getPayload();
 
-        const user = await User.findOne({ email })
+        const user = await User.findOne({ email: payload.email })
         if (!user) {
             const newUser = new User({
-                email,
-                image: picture,
-                name,
+                name: payload.name,
+                email: payload.email,
+                image: payload.picture,
+                authType: 'Google',
+                verified: true
             })
 
             await newUser.save()
 
             const token = jwt.sign(
-                { id: user.id }, // Payload (user info)
+                { id: newUser._id }, // Payload (user info)
                 process.env.JWT_SECRET, // Secret key
-                // { expiresIn: '1h' } // Expiration time (optional)
+                { expiresIn: '1h' } // Expiration time (optional)
             );
             return res.status(200).json({ newUser, token });
 
         } else {
             const token = jwt.sign(
-                { id: user.id }, // Payload (user info)
+                { id: newUser._id }, // Payload (user info)
                 process.env.JWT_SECRET, // Secret key
-                // { expiresIn: '1h' } // Expiration time (optional)
+                { expiresIn: '1h' } // Expiration time (optional)
             );
             return res.status(200).json({ user, token });
         };
@@ -180,7 +189,7 @@ export const verifyCode = async (req, res) => {
 
         // If authentication is successful, generate and send the token
         const token = jwt.sign(
-            { id: user.id }, // Payload (user info)
+            { id: user._id }, // Payload (user info)
             process.env.JWT_SECRET, // Secret key
             // { expiresIn: '1h' } // Expiration time (optional)
         );

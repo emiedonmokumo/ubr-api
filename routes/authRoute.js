@@ -220,7 +220,7 @@ router.post('/google', googleAuth);
 
 /**
  * @swagger
- * /reset-password:
+ * /api/auth/reset-password:
  *   post:
  *     summary: Reset user password
  *     description: Resets the user's password after verifying the OTP code.
