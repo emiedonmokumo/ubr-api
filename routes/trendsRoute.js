@@ -1,12 +1,12 @@
 import express from 'express'
 import authenticate from '../middleware/authMiddleware.js';
-import { getTrends, searchTrends } from '../controllers/trends.js';
+import { dailyTrends, getContents, searchTrends } from '../controllers/trends.js';
 import { getSingleSubreddit, redditTrend } from '../controllers/reddit.js';
 const router = express.Router()
 
 /**
  * @swagger
- * /api/trends:
+ * /api/trends/daily:
  *   get:
  *     summary: Fetch daily trends
  *     description: Retrieves daily trending topics from Google Trends and popular subreddits.
@@ -29,18 +29,18 @@ const router = express.Router()
  *                     type: string
  *                     example: "Taylor Swift 2024 Tour"
  *                   trafficVolume:
- *                     type: integer
- *                     example: 2000000
+ *                     type: string
+ *                     example: '20k+'
  *                   type:
  *                     type: string
  *                     example: "google" # Indicates the source, either 'google' or 'reddit'
- *                   description:
- *                     type: string
- *                     example: "Explore Taylor Swift's tour popularity and trends."
- *                   trendDate:
- *                     type: integer
- *                     format: date-time
- *                     example: 1558894980
+ *                   url:
+ *                      type: string
+ *                      example: "https://example.com"
+ *                   image:
+ *                      type: string
+ *                      example: "https://example.com/image.jpg"
+ *                   
  *       401:
  *         description: Unauthorized. Token is missing or invalid.
  *         content:
@@ -62,7 +62,7 @@ const router = express.Router()
  *                   type: string
  *                   example: "An unexpected error occurred while fetching trends."
  */
-router.get('/', getTrends)
+router.get('/daily', dailyTrends)
 
 /**
  * @swagger
