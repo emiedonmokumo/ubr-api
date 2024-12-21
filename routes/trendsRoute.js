@@ -1,6 +1,6 @@
 import express from 'express'
 import authenticate from '../middleware/authMiddleware.js';
-import { dailyTrends, getContents, searchTrends } from '../controllers/trends.js';
+import { dailyTrends, getContents, searchContent, searchTrends } from '../controllers/trends.js';
 import { getSingleSubreddit, redditTrend } from '../controllers/reddit.js';
 const router = express.Router()
 
@@ -72,6 +72,8 @@ router.get('/daily', dailyTrends)
  *     description: Retrieve popular subreddits related to a specific search query.
  *     tags:
  *       - Trends
+ *     security:
+ *       - bearerAuth: [] # Indicates the route requires authentication using a Bearer Token
  *     requestBody:
  *       required: true
  *       content:
@@ -113,6 +115,8 @@ router.post('/search', authenticate, searchTrends)
  *     summary: Get the latest news articles
  *     tags:
  *          - Trends
+ *     security:
+ *       - bearerAuth: [] # Indicates the route requires authentication using a Bearer Token
  *     description: Fetch the latest news articles from multiple sources, sorted by publication date.
  *     responses:
  *       200:
@@ -146,7 +150,7 @@ router.post('/search', authenticate, searchTrends)
  *       500:
  *         description: Failed to fetch trends
  */
-router.get('/contents', getContents)
+router.get('/contents', authenticate, getContents)
 
 
 // Debugging
