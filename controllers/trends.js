@@ -38,7 +38,7 @@ export const searchContent = async (req, res) => {
 export const dailyTrends = async (req, res) => {
     try {
         // Fetch popular subreddits (fetching 5 popular subreddits as an example)
-        const subredditTrends = await reddit.get('/r/popular', { limit: 20 });
+        // const subredditTrends = await reddit.get('/r/popular', { limit: 20 });
         // const subredditTrends = await reddit.get('/r/trendingsubreddits', { limit: 20 });
 
         // Fetch Google Trends data
@@ -79,8 +79,8 @@ export const dailyTrends = async (req, res) => {
         ];
 
         // Send the uniform combined response
-        // res.json(googleTrendsData);
-        res.status(200).json(combinedTrends);
+        res.json.status(200).json(googleTrendsData);
+        // res.status(200).json(combinedTrends);
     } catch (error) {
         // Handle any errors that occur during the fetch or processing
         console.error('Error fetching trends:', error);
