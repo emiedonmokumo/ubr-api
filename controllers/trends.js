@@ -43,7 +43,7 @@ export const dailyTrends = async (req, res) => {
 
         // Fetch Google Trends data
         const result = await googleTrends.dailyTrends({
-            geo: 'NG', // Specify the country code for the trends
+            geo: 'US', // Specify the country code for the trends
 
         });
 
@@ -67,19 +67,19 @@ export const dailyTrends = async (req, res) => {
             })),
 
             // Combine Reddit Trends
-            ...subredditTrends.data.children.map(post => ({
-                name: post.data.title,
-                trafficVolume: post.data.subscribers,
-                type: 'reddit',  // Add a type to distinguish Reddit trends
-                description: post.data.title,
-                trendDate: post.data.created_utc,
-                url: post.data.url,
-                snippet: post.data.selftext
-            }))
+            // ...subredditTrends.data.children.map(post => ({
+            //     name: post.data.title,
+            //     trafficVolume: post.data.subscribers,
+            //     type: 'reddit',  // Add a type to distinguish Reddit trends
+            //     description: post.data.title,
+            //     trendDate: post.data.created_utc,
+            //     url: post.data.url,
+            //     snippet: post.data.selftext
+            // }))
         ];
 
         // Send the uniform combined response
-        res.json.status(200).json(googleTrendsData);
+        res.status(200).json(combinedTrends);
         // res.status(200).json(combinedTrends);
     } catch (error) {
         // Handle any errors that occur during the fetch or processing
