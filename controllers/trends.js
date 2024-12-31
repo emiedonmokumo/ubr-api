@@ -37,7 +37,7 @@ export const searchContent = async (req, res) => {
 
 export const getTrends = async (req, res) => {
     try {
-        const response = await fetch('https://explodingtopics.com/api/trends?page=1&size=30&period=24&sort=growth&order=desc&type=all&categories=&brandedTopicsSelected=all');
+        const response = await fetch('https://explodingtopics.com/api/trends?page=1&size=1&period=24&sort=growth&order=desc&type=all&categories=&brandedTopicsSelected=all');
 
         if (!response.ok) {
             throw new Error('Failed to fetch data');
@@ -46,7 +46,8 @@ export const getTrends = async (req, res) => {
         const data = await response.json();
         return res.status(200).json(data); // Return the fetched data as a JSON response
     } catch (error) {
-        res.status(500).json(data) // Return an error response if something goes wrong
+        console.log(error)
+        res.status(500).json({ message: error.message || 'An unexpected error occurred while fetching trends.'}) // Return an error response if something goes wrong
     }
 }
 

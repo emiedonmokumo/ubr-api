@@ -4,7 +4,198 @@ import { dailyTrends, getContents, getTrends, searchContent, searchTrends } from
 import { getSingleSubreddit, redditTrend } from '../controllers/reddit.js';
 const router = express.Router()
 
+/**
+ * @swagger
+ * /api/trends:
+ *   get:
+ *     summary: Get the latest trends from Exploding Topics
+ *     description: Fetches trending topics with detailed information, including growth, search history, and keyword data.
+ *     tags:
+ *       - Trends
+ *     responses:
+ *       200:
+ *         description: A list of trends
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 trends:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: string
+ *                         description: Unique ID of the trend
+ *                       createdAt:
+ *                         type: integer
+ *                         description: Timestamp of when the trend was created
+ *                       keyword:
+ *                         type: string
+ *                         description: The keyword representing the trend
+ *                       topic:
+ *                         type: string
+ *                         description: Type of the trend (e.g., keyword)
+ *                       searchHistory:
+ *                         type: array
+ *                         items:
+ *                           type: object
+ *                           properties:
+ *                             value:
+ *                               type: integer
+ *                               description: The search volume at a specific time
+ *                             time:
+ *                               type: integer
+ *                               description: Timestamp when the search value was recorded
+ *                       regressions:
+ *                         type: object
+ *                         additionalProperties:
+ *                           type: object
+ *                           properties:
+ *                             gradient:
+ *                               type: number
+ *                               description: Regression gradient
+ *                             yIntercept:
+ *                               type: number
+ *                               description: Y intercept of the regression line
+ *                             exponent:
+ *                               type: number
+ *                               nullable: true
+ *                               description: Exponent in regression if applicable
+ *                       categories:
+ *                         type: array
+ *                         items:
+ *                           type: string
+ *                           description: Categories associated with the trend
+ *                       classifications:
+ *                         type: object
+ *                         properties:
+ *                           3:
+ *                             type: string
+ *                             description: Classification for the 3-month period
+ *                           6:
+ *                             type: string
+ *                             description: Classification for the 6-month period
+ *                           12:
+ *                             type: string
+ *                             description: Classification for the 12-month period
+ *                           24:
+ *                             type: string
+ *                             description: Classification for the 24-month period
+ *                           60:
+ *                             type: string
+ *                             description: Classification for the 60-month period
+ *                           120:
+ *                             type: string
+ *                             description: Classification for the 120-month period
+ *                           180:
+ *                             type: string
+ *                             description: Classification for the 180-month period
+ *                           proj12:
+ *                             type: string
+ *                             description: Classification for projected 12 months
+ *                       keywordDataGlobal:
+ *                         type: object
+ *                         properties:
+ *                           vol:
+ *                             type: integer
+ *                             description: Global search volume
+ *                           cpc:
+ *                             type: number
+ *                             description: Cost per click for the keyword
+ *                       path:
+ *                         type: string
+ *                         description: URL-friendly path for the trend
+ *                       premiumTimestamp:
+ *                         type: integer
+ *                         description: Timestamp indicating when the trend became premium
+ *                       premium:
+ *                         type: boolean
+ *                         description: Whether the trend is premium
+ *                       branded:
+ *                         type: boolean
+ *                         description: Whether the trend is branded
+ *                       briefDescription:
+ *                         type: string
+ *                         description: A brief description of the trend
+ *                       growth:
+ *                         type: object
+ *                         properties:
+ *                           3:
+ *                             type: number
+ *                             description: Growth rate over 3 months
+ *                           6:
+ *                             type: number
+ *                             description: Growth rate over 6 months
+ *                           12:
+ *                             type: number
+ *                             description: Growth rate over 12 months
+ *                           24:
+ *                             type: number
+ *                             description: Growth rate over 24 months
+ *                           60:
+ *                             type: number
+ *                             description: Growth rate over 60 months
+ *                           120:
+ *                             type: number
+ *                             description: Growth rate over 120 months
+ *                           180:
+ *                             type: number
+ *                             description: Growth rate over 180 months
+ *                           proj12:
+ *                             type: number
+ *                             description: Projected growth rate for the next 12 months
+ *                       predictions:
+ *                         type: object
+ *                         properties:
+ *                           last_10_years:
+ *                             type: object
+ *                             properties:
+ *                               dataGranularity:
+ *                                 type: string
+ *                                 description: Granularity of the data (e.g., month)
+ *                               predictions:
+ *                                 type: array
+ *                                 items:
+ *                                   type: object
+ *                                   properties:
+ *                                     time:
+ *                                       type: integer
+ *                                       description: Timestamp for the prediction
+ *                                     value:
+ *                                       type: number
+ *                                       description: Predicted value for the given time
+ *                           last_1_year:
+ *                             type: object
+ *                             properties:
+ *                               dataGranularity:
+ *                                 type: string
+ *                                 description: Granularity of the data (e.g., week)
+ *                               predictions:
+ *                                 type: array
+ *                                 items:
+ *                                   type: object
+ *                                   properties:
+ *                                     time:
+ *                                       type: integer
+ *                                       description: Timestamp for the prediction
+ *                                     value:
+ *                                       type: number
+ *                                       description: Predicted value for the given time
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ */
 router.get('/', getTrends)
+
 
 /**
  * @swagger
