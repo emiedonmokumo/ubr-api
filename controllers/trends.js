@@ -37,7 +37,7 @@ export const searchContent = async (req, res) => {
 
 export const getTrends = async (req, res) => {
     try {
-        const response = await fetch('https://explodingtopics.com/api/trends?page=1&size=1&period=24&sort=growth&order=desc&type=all&categories=&brandedTopicsSelected=all');
+        const response = await fetch('https://explodingtopics.com/api/trends?page=30&size=1&period=24&sort=growth&order=desc&type=all&categories=&brandedTopicsSelected=all');
 
         if (!response.ok) {
             throw new Error('Failed to fetch data');
