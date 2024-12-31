@@ -1,8 +1,10 @@
 import express from 'express'
 import authenticate from '../middleware/authMiddleware.js';
-import { dailyTrends, getContents, searchContent, searchTrends } from '../controllers/trends.js';
+import { dailyTrends, getContents, getTrends, searchContent, searchTrends } from '../controllers/trends.js';
 import { getSingleSubreddit, redditTrend } from '../controllers/reddit.js';
 const router = express.Router()
+
+router.get('/', getTrends)
 
 /**
  * @swagger

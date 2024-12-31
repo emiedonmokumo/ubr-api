@@ -35,6 +35,21 @@ export const searchContent = async (req, res) => {
     }
 }
 
+export const getTrends = async (req, res) => {
+    try {
+        const response = await fetch('https://explodingtopics.com/api/trends?page=1&size=30&period=24&sort=growth&order=desc&type=all&categories=&brandedTopicsSelected=all');
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch data');
+        }
+
+        const data = await response.json();
+        return res.status(200).json(data); // Return the fetched data as a JSON response
+    } catch (error) {
+        res.status(500).json(data) // Return an error response if something goes wrong
+    }
+}
+
 export const dailyTrends = async (req, res) => {
     try {
         // Fetch popular subreddits (fetching 5 popular subreddits as an example)
