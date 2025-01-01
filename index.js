@@ -20,42 +20,42 @@ connectDB();
 const PORT = process.env.PORT || 8080;
 const app = express();
 
-const swaggerDefinition = {
-    openapi: '3.0.0',
-    info: {
-        title: 'Universal Basic Resources API',
-        version: '1.0.0',
-        description: 'API documentation for my app',
-    },
-    servers: [
-        {
-            url: process.env.BASE_URL || `http://localhost:${PORT}`,
-            description: 'API Base URL',
-        },
-    ],
-    components: {
-        securitySchemes: {
-            bearerAuth: {
-                type: 'http',
-                scheme: 'bearer',
-                bearerFormat: 'JWT',
-            },
-        },
-    },
-    // security: [
-    //     {
-    //         bearerAuth: [],
-    //     },
-    // ],
-};
+// const swaggerDefinition = {
+//     openapi: '3.0.0',
+//     info: {
+//         title: 'Universal Basic Resources API',
+//         version: '1.0.0',
+//         description: 'API documentation for my app',
+//     },
+//     servers: [
+//         {
+//             url: process.env.BASE_URL || `http://localhost:${PORT}`,
+//             description: 'API Base URL',
+//         },
+//     ],
+//     components: {
+//         securitySchemes: {
+//             bearerAuth: {
+//                 type: 'http',
+//                 scheme: 'bearer',
+//                 bearerFormat: 'JWT',
+//             },
+//         },
+//     },
+//     security: [
+//         {
+//             bearerAuth: [],
+//         },
+//     ],
+// };
 
-const options = {
-    swaggerDefinition,
-    apis: ['./routes/*.js', './routes/*.mjs'], // path to the API route files
-};
+// const options = {
+//     swaggerDefinition,
+//     apis: ['./routes/*.js', './routes/*.mjs'], // path to the API route files
+// };
 
 // Create swagger spec
-const swaggerSpec = swaggerJsdoc(options);
+// const swaggerSpec = swaggerJsdoc(options);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -66,7 +66,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Serve static Swagger UI assets
-app.use('/swagger-static', express.static(path.join(__dirname, 'node_modules', 'swagger-ui-dist')));
+// app.use('/swagger-static', express.static(path.join(__dirname, 'node_modules', 'swagger-ui-dist')));
 
 app.get('/', (req, res)=>{
     try {
@@ -77,22 +77,22 @@ app.get('/', (req, res)=>{
 })
 
 // Serve Swagger JSON
-app.get('/swagger-static/swagger.json', (req, res) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.send(swaggerSpec);
-});
+// app.get('/swagger-static/swagger.json', (req, res) => {
+//     res.setHeader('Content-Type', 'application/json');
+//     res.send(swaggerSpec);
+// });
 
 // Serve Swagger docs
-app.use(
-    '/docs',
-    swaggerUi.serveFiles(null, { swaggerOptions: { url: '/swagger-static/swagger.json' } }),
-    swaggerUi.setup(null, { swaggerOptions: { url: '/swagger-static/swagger.json' } })
-);
+// app.use(
+//     '/docs',
+//     swaggerUi.serveFiles(null, { swaggerOptions: { url: '/swagger-static/swagger.json' } }),
+//     swaggerUi.setup(null, { swaggerOptions: { url: '/swagger-static/swagger.json' } })
+// );
 
 // API routes
-app.use('/api/user', userRoute)
-app.use('/api/auth', authRoute);
-app.use('/api/trends', trendsRoute);
+// app.use('/api/user', userRoute)
+// app.use('/api/auth', authRoute);
+// app.use('/api/trends', trendsRoute);
 // app.use('/api/stripe', stripeRoute);
 
 // Start the server
