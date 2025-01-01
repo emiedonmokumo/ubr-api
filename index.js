@@ -63,14 +63,30 @@ const __dirname = path.dirname(__filename);
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+const allowedOrigins = ['https://ubr-project.netlify.app', 'http://localhost:5173']; // Add other allowed origins if needed
+
+const corsOptions = {
+    origin: (origin, callback) => {
+        // Allow requests with no origin (like mobile apps or Postman)
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify the allowed methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Specify the allowed headers
+    credentials: true, // Allow cookies or other credentials
+};
+
+app.use(cors(corsOptions)); // Apply CORS configuration
 
 // Serve static Swagger UI assets
 app.use('/swagger-static', express.static(path.join(__dirname, 'node_modules', 'swagger-ui-dist')));
 
-app.get('/', (req, res)=>{
+app.get('/', (req, res) => {
     try {
-        res.status(200).json({ message: 'Welcome to API of Universal Basic Resources'})
+        res.status(200).json({ message: 'Welcome to API of Universal Basic Resources' })
     } catch (error) {
         res.status(500).json({ error })
     }
