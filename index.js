@@ -5,7 +5,7 @@ import swaggerUi from 'swagger-ui-express';
 import authRoute from './routes/authRoute.js';
 import userRoute from './routes/userRoute.js'
 import trendsRoute from './routes/trendsRoute.js'
-// import stripeRoute from './routes/stripeRoute.js';
+import stripeRoute from './routes/stripeRoute.js';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import cors from 'cors';
