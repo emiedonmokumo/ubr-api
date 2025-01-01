@@ -51,6 +51,23 @@ export const getTrends = async (req, res) => {
     }
 }
 
+// Get a trend
+export const getTrend = async (req, res) => {
+    try {
+        const response = await fetch(`https://explodingtopics.com/api/trend/${req.params.path}`);
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch data');
+        }
+
+        const data = await response.json();
+        return res.status(200).json(data); // Return the fetched data as a JSON response
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: error.message || 'An unexpected error occurred while fetching trends.'}) // Return an error response if something goes wrong
+    }
+}
+
 export const dailyTrends = async (req, res) => {
     try {
         // Fetch popular subreddits (fetching 5 popular subreddits as an example)

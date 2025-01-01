@@ -1,6 +1,6 @@
 import express from 'express'
 import authenticate from '../middleware/authMiddleware.js';
-import { dailyTrends, getContents, getTrends, searchContent, searchTrends } from '../controllers/trends.js';
+import { dailyTrends, getContents, getTrend, getTrends, searchContent, searchTrends } from '../controllers/trends.js';
 import { getSingleSubreddit, redditTrend } from '../controllers/reddit.js';
 const router = express.Router()
 
@@ -195,6 +195,66 @@ const router = express.Router()
  *                   description: Error message
  */
 router.get('/', getTrends)
+
+
+-/**
+ * @swagger
+ * /api/trends/{path}:
+ *   get:
+ *     summary: Get detailed information about a specific trend
+ *     description: Fetches detailed information about a trend using its path from Exploding Topics.
+ *     tags:
+ *      - Trends
+ *     parameters:
+ *       - in: path
+ *         name: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The unique path identifier for the trend
+ *     responses:
+ *       200:
+ *         description: Trend data fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                   description: Unique ID of the trend
+ *                 title:
+ *                   type: string
+ *                   description: Title or keyword of the trend
+ *                 description:
+ *                   type: string
+ *                   description: A brief description of the trend
+ *                 category:
+ *                   type: string
+ *                   description: Category of the trend
+ *                 growthRate:
+ *                   type: number
+ *                   description: Growth rate of the trend
+ *                 searchVolume:
+ *                   type: integer
+ *                   description: Current search volume for the trend
+ *                 trendPath:
+ *                   type: string
+ *                   description: The unique path identifier of the trend
+ *       400:
+ *         description: Bad request - Invalid path parameter
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ */
+router.get('/:path', getTrend)
 
 
 /**
