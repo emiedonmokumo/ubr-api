@@ -88,7 +88,7 @@ export const customLogin = async (req, res) => {
         }
 
         const isMatched = await bcrypt.compare(password, user.password)
-        if (!isMatched) res.status(400).json({ message: 'Password Incorrect' });
+        if (!isMatched) return res.status(400).json({ message: 'Password Incorrect' });
 
         // If authentication is successful, generate and send the token
         const token = jwt.sign(

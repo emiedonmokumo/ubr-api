@@ -72,7 +72,7 @@ export const dailyTrends = async (req, res) => {
     try {
         // Fetch popular subreddits (fetching 5 popular subreddits as an example)
         // const subredditTrends = await reddit.get('/r/popular', { limit: 20 });
-        // const subredditTrends = await reddit.get('/r/trendingsubreddits', { limit: 20 });
+        const subredditTrends = await reddit.get('/r/trendingsubreddits', { limit: 20 });
 
         // Fetch Google Trends data
         const result = await googleTrends.dailyTrends({
@@ -81,7 +81,7 @@ export const dailyTrends = async (req, res) => {
         });
 
         const googleTrendsData = JSON.parse(result);
-        const googleDailySearch = googleTrendsData.default.trendingSearchesDays[0].trendingSearches;
+        const googleDailySearch = googleTrendsData.default.trendingSearchesDays[1].trendingSearches;
         // const googleTrendDate = googleTrendsData.default.trendingSearchesDays[0].date;
 
         // // Uniformly combine both data sources
@@ -100,20 +100,20 @@ export const dailyTrends = async (req, res) => {
             })),
 
             // Combine Reddit Trends
-            // ...subredditTrends.data.children.map(post => ({
-            //     name: post.data.title,
-            //     trafficVolume: post.data.subscribers,
-            //     type: 'reddit',  // Add a type to distinguish Reddit trends
-            //     description: post.data.title,
-            //     trendDate: post.data.created_utc,
-            //     url: post.data.url,
-            //     snippet: post.data.selftext
-            // }))
+            ...subredditTrends.data.children.map(post => ({
+                name: post.data.title,
+                trafficVolume: post.data.subscribers,
+                type: 'reddit',  // Add a type to distinguish Reddit trends
+                description: post.data.title,
+                trendDate: post.data.created_utc,
+                url: post.data.url,
+                snippet: post.data.selftext
+            }))
         ];
 
         // Send the uniform combined response
+        // res.status(200).json(googleTrendsData);
         res.status(200).json(combinedTrends);
-        // res.status(200).json(combinedTrends);
     } catch (error) {
         // Handle any errors that occur during the fetch or processing
         console.error('Error fetching trends:', error);

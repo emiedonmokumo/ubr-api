@@ -197,9 +197,9 @@ const router = express.Router()
 router.get('/', getTrends)
 
 
--/**
+/**
  * @swagger
- * /api/trends/{path}:
+ * /api/trends/path/{path}:
  *   get:
  *     summary: Get detailed information about a specific trend
  *     description: Fetches detailed information about a trend using its path from Exploding Topics.
@@ -254,7 +254,7 @@ router.get('/', getTrends)
  *                   type: string
  *                   description: Error message
  */
-router.get('/:path', getTrend)
+router.get('/path/:path', getTrend)
 
 
 /**
@@ -315,7 +315,7 @@ router.get('/:path', getTrend)
  *                   type: string
  *                   example: "An unexpected error occurred while fetching trends."
  */
-router.get('/daily', dailyTrends)
+router.get('/daily', authenticate, dailyTrends)
 
 /**
  * @swagger
