@@ -5,7 +5,7 @@ import swaggerUi from 'swagger-ui-express';
 import authRoute from './routes/authRoute.js';
 import userRoute from './routes/userRoute.js'
 import trendsRoute from './routes/trendsRoute.js'
-import stripeRoute from './routes/stripeRoute.js';
+// import stripeRoute from './routes/stripeRoute.js';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import cors from 'cors';
@@ -93,7 +93,7 @@ app.use(
 app.use('/api/user', userRoute)
 app.use('/api/auth', authRoute);
 app.use('/api/trends', trendsRoute);
-app.use('/api/stripe', stripeRoute);
+// app.use('/api/stripe', stripeRoute);
 
 // Start the server
 app.listen(PORT, () => {
