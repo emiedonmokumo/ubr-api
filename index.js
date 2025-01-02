@@ -11,7 +11,6 @@ import connectDB from './config/db.js';
 import cors from 'cors';
 import { fileURLToPath } from 'url';
 import path from 'path';
-// import authenticate from './middleware/authMiddleware.js';
 import bodyParser from 'body-parser';
 
 dotenv.config();
