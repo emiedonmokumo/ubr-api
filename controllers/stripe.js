@@ -51,7 +51,7 @@ export const createPayment = async (req, res) => {
 // Route to fetch customer payment methods
 export const getPaymentMethod = async (req, res) => {
     try {
-        console.log('working', req.user.id.toString())
+        // console.log('working', req.user.id.toString())
         const paymentMethods = await stripe.paymentMethods.list({
             type: 'card', // Specify the type of payment method
         });

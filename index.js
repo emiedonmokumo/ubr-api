@@ -67,13 +67,13 @@ app.use(cors());
 // Serve static Swagger UI assets
 app.use('/swagger-static', express.static(path.join(__dirname, 'node_modules', 'swagger-ui-dist')));
 
-// app.get('/', (req, res)=>{
-//     try {
-//         res.status(200).json({ message: 'Welcome to API of Universal Basic Resources'})
-//     } catch (error) {
-//         res.status(500).json({ error })
-//     }
-// })
+app.get('/', (req, res)=>{
+    try {
+        res.status(200).json({ message: 'Welcome to API of Universal Basic Resources'})
+    } catch (error) {
+        res.status(500).json({ error })
+    }
+})
 
 // Serve Swagger JSON
 app.get('/swagger-static/swagger.json', (req, res) => {
