@@ -81,7 +81,7 @@ export const dailyTrends = async (req, res) => {
         });
 
         const googleTrendsData = JSON.parse(result);
-        const googleDailySearch = googleTrendsData.default.trendingSearchesDays[1].trendingSearches;
+        const googleDailySearch = googleTrendsData.default.trendingSearchesDays[0].trendingSearches;
         // const googleTrendDate = googleTrendsData.default.trendingSearchesDays[0].date;
 
         // // Uniformly combine both data sources
@@ -112,7 +112,7 @@ export const dailyTrends = async (req, res) => {
         ];
 
         // Send the uniform combined response
-        // res.status(200).json(googleTrendsData);
+        // res.status(200).json(googleDailySearch);
         res.status(200).json(combinedTrends);
     } catch (error) {
         // Handle any errors that occur during the fetch or processing
