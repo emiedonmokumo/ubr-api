@@ -3,13 +3,13 @@ import authenticate from '../middleware/authMiddleware.js';
 import { createPayment, getCustomer, getPaymentMethod } from '../controllers/stripe.js';
 const router = express.Router()
 
-router.get('/', authenticate, (req, res)=>{
-    try {
-        res.json({user: typeof req.user.email})
-    } catch (error) {
-        res.status(500).json({ message: error.message || error.toString() });
-    }
-})
+// router.get('/', authenticate, (req, res)=>{
+//     try {
+//         res.json({user: typeof req.user.email})
+//     } catch (error) {
+//         res.status(500).json({ message: error.message || error.toString() });
+//     }
+// })
 
 /**
  * @swagger
