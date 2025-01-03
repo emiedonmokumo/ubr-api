@@ -2,7 +2,7 @@ import Stripe from 'stripe';
 import dotenv from 'dotenv';
 dotenv.config();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-import Customer from '../models/Customer.js';
+import Customer from "../models/Customer.js";
 
 
 // Payment route
