@@ -12,6 +12,8 @@ const router = express.Router()
  *     description: Fetches trending topics with detailed information, including growth, search history, and keyword data.
  *     tags:
  *       - Trends
+ *     security:
+ *       - bearerAuth: [] # Indicates the route requires authentication using a Bearer Token
  *     responses:
  *       200:
  *         description: A list of trends
@@ -205,6 +207,8 @@ router.get('/', getTrends)
  *     description: Fetches detailed information about a trend using its path from Exploding Topics.
  *     tags:
  *      - Trends
+ *     security:
+ *       - bearerAuth: [] # Indicates the route requires authentication using a Bearer Token
  *     parameters:
  *       - in: path
  *         name: path
@@ -267,7 +271,6 @@ router.get('/path/:path', getTrend)
  *       - Trends
  *     security:
  *       - bearerAuth: [] # Indicates the route requires authentication using a Bearer Token
- *         description: The number of popular subreddits to fetch. Defaults to 5.
  *     responses:
  *       200:
  *         description: Successfully retrieved daily trends.
