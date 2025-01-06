@@ -196,7 +196,7 @@ const router = express.Router()
  *                   type: string
  *                   description: Error message
  */
-router.get('/', getTrends)
+router.get('/', authenticate, getTrends)
 
 
 /**
@@ -258,7 +258,7 @@ router.get('/', getTrends)
  *                   type: string
  *                   description: Error message
  */
-router.get('/path/:path', getTrend)
+router.get('/path/:path', authenticate, getTrend)
 
 
 /**
