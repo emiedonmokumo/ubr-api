@@ -13,6 +13,21 @@ export const getUser = async (req, res) => {
 
 }
 
+export const deleteUser = async (req, res) => {
+    try {
+        const user = await User.findOne({ _id: req.user.id });
+        if (!user) return res.status(404).json({ message: 'User not found' });
+
+        await User.deleteOne({ _id: req.user.id })
+
+        res.status(200).json({ message: 'User Deleted!'});
+    } catch (error) {
+        res.status(200).json({ message: error.toString() });
+        console.log(error)
+    }
+
+}
+
 export const updateBio = async (req, res) => {
     try {
         const { name, about, trending, categories, language, country, timeZone, dateFormat, timeFormat } = req.body;

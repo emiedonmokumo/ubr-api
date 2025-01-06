@@ -1,8 +1,34 @@
 import express from 'express'
 import authenticate from '../middleware/authMiddleware.js';
-import { getUser, updateBio } from '../controllers/user.js';
+import { deleteUser, getUser, updateBio } from '../controllers/user.js';
 const router = express.Router()
 
+/**
+ * @swagger
+* /api/user:
+*   delete:
+*     summary: Delete user account
+*     security:
+*       - bearerAuth: []
+*     tags:
+*       - User
+*     responses:
+*       200:
+*         description: User successfully deleted
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 message:
+*                   type: string
+*                   example: User Deleted!
+*       404:
+*         description: User not found
+*       500:
+*         description: Internal server error
+*/
+router.delete('/', authenticate, deleteUser)
 
 /**
  * @swagger
