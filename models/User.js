@@ -1,10 +1,11 @@
 import mongoose, { Document, Model, Schema } from 'mongoose';
 
 const userSchema = new Schema({
-    name: String,
     bio: {
+        name: String,
         about: {
-            type: String
+            type: String,
+            trim: true
         },
         interest: {
             trending: {
@@ -13,6 +14,26 @@ const userSchema = new Schema({
             categories: {
                 type: [String]
             }
+        },
+        language: {
+            type: String,
+            trim: true
+        },
+        country: {
+            type: String,
+            trim: true
+        },
+        timeZone: {
+            type: String,
+            trim: true
+        },
+        dateFormat: {
+            type: String,
+            trim: true
+        },
+        timeFormat: {
+            type: String,
+            trim: true
         }
     },
     email: {

@@ -27,6 +27,42 @@ const router = express.Router()
  *                   type: string
  *                 email:
  *                   type: string
+ *                 bio:
+ *                   type: object
+ *                   properties:
+ *                     name:
+ *                       type: string
+ *                     about:
+ *                       type: string
+ *                     interest:
+ *                       type: object
+ *                       properties:
+ *                         trending:
+ *                           type: array
+ *                           items:
+ *                             type: string
+ *                         categories:
+ *                           type: array
+ *                           items:
+ *                             type: string
+ *                     language:
+ *                       type: string
+ *                     country:
+ *                       type: string
+ *                     timeZone:
+ *                       type: string
+ *                     dateFormat:
+ *                       type: string
+ *                     timeFormat:
+ *                       type: string
+ *                 image:
+ *                   type: string
+ *                 isVerified:
+ *                   type: boolean
+ *                 authType:
+ *                   type: string
+ *                 role:
+ *                   type: string
  *       404:
  *         description: User not found
  *       500:
@@ -50,6 +86,8 @@ router.get('/', authenticate, getUser)
  *           schema:
  *             type: object
  *             properties:
+ *               name:
+ *                 type: string
  *               about:
  *                 type: string
  *               trending:
@@ -60,6 +98,16 @@ router.get('/', authenticate, getUser)
  *                 type: array
  *                 items:
  *                   type: string
+ *               language:
+ *                 type: string
+ *               country:
+ *                 type: string
+ *               timeZone:
+ *                 type: string
+ *               dateFormat:
+ *                 type: string
+ *               timeFormat:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Bio updated successfully
@@ -78,6 +126,8 @@ router.get('/', authenticate, getUser)
  *                     bio:
  *                       type: object
  *                       properties:
+ *                         name:
+ *                           type: string
  *                         about:
  *                           type: string
  *                         interest:
@@ -91,6 +141,16 @@ router.get('/', authenticate, getUser)
  *                               type: array
  *                               items:
  *                                 type: string
+ *                         language:
+ *                           type: string
+ *                         country:
+ *                           type: string
+ *                         timeZone:
+ *                           type: string
+ *                         dateFormat:
+ *                           type: string
+ *                         timeFormat:
+ *                           type: string
  *       400:
  *         description: No valid fields to update
  *       404:
