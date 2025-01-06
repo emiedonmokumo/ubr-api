@@ -1,6 +1,6 @@
 import express from 'express'
 const router = express.Router()
-import { createSubscription, getSubscriptions, updateSubscription } from "../controllers/subscription.js";
+import { createSubscription, deleteSubscription, getSubscription, getSubscriptions, updateSubscription } from "../controllers/subscription.js";
 import authenticate from "../middleware/authMiddleware.js";
 
 
@@ -168,6 +168,80 @@ router.get('/', getSubscriptions)
 /**
  * @swagger
  * /api/subscription/{id}:
+ *   get:
+ *     summary: Get a subscription by ID
+ *     description: Retrieves a subscription by its unique ID.
+ *     operationId: getSubscription
+ *     tags:
+ *       - Subscriptions
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: The ID of the subscription to retrieve.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved the subscription.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                   example: "605c72ef153207001f9d6b47"
+ *                 name:
+ *                   type: string
+ *                   example: "Basic Plan"
+ *                 features:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                     example: "Feature 1"
+ *                 price:
+ *                   type: number
+ *                   example: 9.99
+ *                 currency:
+ *                   type: string
+ *                   example: "USD"
+ *                 billingCycle:
+ *                   type: string
+ *                   example: "Monthly"
+ *                 recommended:
+ *                   type: boolean
+ *                   example: true
+ *       404:
+ *         description: Subscription not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Subscription not found"
+ *       500:
+ *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Error fetching subscriptions"
+ *                 error:
+ *                   type: string
+ *                   example: "Error message"
+ */
+router.get('/:id', authenticate, getSubscription);
+
+
+/**
+ * @swagger
+ * /api/subscription/{id}:
  *   put:
  *     summary: Update an existing subscription
  *     description: Update details of an existing subscription plan.
@@ -272,5 +346,59 @@ router.get('/', getSubscriptions)
  *                   example: "Error message"
  */
 router.put('/:id', authenticate, updateSubscription)
+
+/**
+ * @swagger
+ * /api/subscription/{id}:
+ *   delete:
+ *     summary: Delete a subscription
+ *     description: Deletes a subscription based on the given subscription ID.
+ *     operationId: deleteSubscription
+ *     tags:
+ *       - Subscriptions
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: The ID of the subscription to delete.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Subscription deleted successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Subscription Deleted!"
+ *       404:
+ *         description: Subscription not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Subscription not found"
+ *       500:
+ *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Error fetching subscriptions"
+ *                 error:
+ *                   type: string
+ *                   example: "Error message"
+ */
+router.delete('/:id', authenticate, deleteSubscription);
+
 
 export default router

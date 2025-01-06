@@ -37,6 +37,33 @@ export const getSubscriptions = async (req, res) => {
     }
 }
 
+export const getSubscription = async (req, res) => {
+    try {
+        const subscription = await Subscription.findOne({ _id: req.params.id });
+        if (!subscription) {
+            return res.status(404).json({ message: "Subscription not found" });
+        }
+
+        res.status(200).json(subscription);
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching subscriptions", error });
+    }
+}
+
+export const deleteSubscription = async (req, res) => {
+    try {
+        const subscription = await Subscription.findOne({ _id: req.params.id });
+        if (!subscription) {
+            return res.status(404).json({ message: "Subscription not found" });
+        }
+
+        await Subscription.deleteOne({ _id: req.params.id })
+        res.status(200).json({ message: 'Subscription Deleted!' });
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching subscriptions", error });
+    }
+}
+
 export const updateSubscription = async (req, res) => {
     const { id } = req.params;
     const { name, features, price, currency, billingCycle, recommended } = req.body;
