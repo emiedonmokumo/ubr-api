@@ -43,6 +43,15 @@ export const createAccount = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10)
 
         const newUser = new User({
+            bio: {
+                name: '',
+                about: '',
+                language: '',
+                country: '',
+                timeZone: '',
+                dateFormat: '',
+                timeFormat: '',
+            },
             email,
             password: hashedPassword,
             otpCode: verificationCode
@@ -115,7 +124,15 @@ export const googleAuth = async (req, res) => {
         const user = await User.findOne({ email: payload.email })
         if (!user) {
             const newUser = new User({
-                name: payload.name,
+                bio: {
+                    name: payload.name,
+                    about: '',
+                    language: '',
+                    country: '',
+                    timeZone: '',
+                    dateFormat: '',
+                    timeFormat: '',
+                },
                 email: payload.email,
                 image: payload.picture,
                 authType: 'Google',

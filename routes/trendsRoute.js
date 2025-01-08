@@ -413,4 +413,5 @@ router.get('/contents', authenticate, getContents)
 // router.get('/reddit', redditTrend)
 // router.get('/reddit/:subredditName', getSingleSubreddit)
 
+
 export default router;

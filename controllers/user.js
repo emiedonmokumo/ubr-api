@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import cloudinary from "../config/cloudinary.js";
 
 export const getUser = async (req, res) => {
     try {
@@ -20,7 +21,7 @@ export const deleteUser = async (req, res) => {
 
         await User.deleteOne({ _id: req.user.id })
 
-        res.status(200).json({ message: 'User Deleted!'});
+        res.status(200).json({ message: 'User Deleted!' });
     } catch (error) {
         res.status(200).json({ message: error.toString() });
         console.log(error)
@@ -28,9 +29,12 @@ export const deleteUser = async (req, res) => {
 
 }
 
+// Update Bio
 export const updateBio = async (req, res) => {
     try {
-        const { name, about, trending, categories, language, country, timeZone, dateFormat, timeFormat } = req.body;
+        const {
+            name, about, trending, categories, language, country, timeZone, dateFormat, timeFormat, image, // Image field in the request body
+        } = req.body;
 
         // Find the user
         const user = await User.findById(req.user.id);
@@ -49,25 +53,71 @@ export const updateBio = async (req, res) => {
         if (dateFormat) bioUpdate['bio.dateFormat'] = dateFormat;
         if (timeFormat) bioUpdate['bio.timeFormat'] = timeFormat;
 
-        // If no valid fields to update
-        if (Object.keys(bioUpdate).length === 0) {
-            return res.status(400).json({ message: 'No valid fields to update' });
+        let imageUri;
+
+        // Handle image upload if the image field exists
+        if (image) {
+            const result = await cloudinary.v2.uploader.upload(image, {
+                folder: 'UBR', // Folder name
+                resource_type: 'image',
+            });
+
+            console.log(result)
+
+            imageUri = result.secure_url; // Save the image URL to the bio
+            console.log(imageUri)
         }
+
+        // If no valid fields to update
+        // if (Object.keys(bioUpdate).length === 0) {
+        //     return res.status(400).json({ message: 'No valid fields to update' });
+        // }
 
         // Update the user document
         const updatedUser = await User.findByIdAndUpdate(
             req.user.id,
-            { $set: bioUpdate },
+            {
+                $set: {
+                    bioUpdate,
+                    image: imageUri
+                }
+            },
             { new: true, runValidators: true } // Return the updated document with validation
         );
 
         res.status(200).json({
             message: 'Bio updated successfully',
-            user: updatedUser
+            user: updatedUser,
         });
     } catch (error) {
         console.error('Error updating bio:', error);
-        res.status(500).json({ message: 'An error occurred while updating the bio', error: error.message });
+        res
+            .status(500)
+            .json({ message: 'An error occurred while updating the bio', error: error.message });
     }
 };
+
+
+// // Function to delete an image
+// export const deleteImage = async (req, res) => {
+//     try {
+//       const { public_id } = req.body; // Get the public_id from the request body
+  
+//       if (!public_id) {
+//         return res.status(400).json({ message: 'Public ID is required.' });
+//       }
+  
+//       // Perform the deletion
+//       const result = await cloudinary.v2.uploader.destroy(public_id);
+  
+//       if (result.result === 'ok') {
+//         res.status(200).json({ message: 'Image deleted successfully.', result });
+//       } else {
+//         res.status(400).json({ message: 'Failed to delete the image.', result });
+//       }
+//     } catch (error) {
+//       console.error('Error deleting image:', error);
+//       res.status(500).json({ message: 'An error occurred while deleting the image.', error });
+//     }
+//   };
 

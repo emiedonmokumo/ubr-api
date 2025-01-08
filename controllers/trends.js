@@ -1,6 +1,7 @@
 import googleTrends from 'google-trends-api'
 import { reddit } from '../config/reddit.js';
 import NewsAPI from 'newsapi';
+import axios from 'axios';
 const newsapi = new NewsAPI(process.env.NEWS_API_KEY);
 
 
@@ -47,7 +48,7 @@ export const getTrends = async (req, res) => {
         return res.status(200).json(data); // Return the fetched data as a JSON response
     } catch (error) {
         console.log(error)
-        res.status(500).json({ message: error.message || 'An unexpected error occurred while fetching trends.'}) // Return an error response if something goes wrong
+        res.status(500).json({ message: error.message || 'An unexpected error occurred while fetching trends.' }) // Return an error response if something goes wrong
     }
 }
 
@@ -64,7 +65,7 @@ export const getTrend = async (req, res) => {
         return res.status(200).json(data); // Return the fetched data as a JSON response
     } catch (error) {
         console.log(error)
-        res.status(500).json({ message: error.message || 'An unexpected error occurred while fetching trends.'}) // Return an error response if something goes wrong
+        res.status(500).json({ message: error.message || 'An unexpected error occurred while fetching trends.' }) // Return an error response if something goes wrong
     }
 }
 
