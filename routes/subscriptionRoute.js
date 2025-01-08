@@ -356,6 +356,8 @@ router.put('/:id', authenticate, updateSubscription)
  *     operationId: deleteSubscription
  *     tags:
  *       - Subscriptions
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path

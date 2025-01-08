@@ -109,3 +109,29 @@ export const getCustomer = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
+
+export const getStripeEvent = async (req, res) => {
+    try {
+        // Search for a customer by metadata and email
+        const customerDB = await Customer.findOne({ user: req.user.id });
+        
+        if (!customerDB) {
+            return res.status(400).json({ message: 'Customer with event is not found' });
+        }
+
+        // Retrieve events from Stripe
+        const events = await stripe.events.list({
+            limit: 100, // Adjust limit as needed
+        });
+
+        // Filter events for the specific customer
+        const customerEvents = events.data.filter(
+            (event) => event.data.object?.customer === 'cus_RXBwpZB80jZRzy'
+        );
+
+        res.status(200).json(customerEvents);
+    } catch (error) {
+        console.error('Error retrieving Stripe events:', error);
+        res.status(500).json({ message: 'Failed to retrieve Stripe events.', error: error.message });
+    }
+};
