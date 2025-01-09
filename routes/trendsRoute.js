@@ -323,7 +323,7 @@ router.get('/daily', authenticate, dailyTrends)
 /**
  * @swagger
  * /api/trends/search:
- *   post:
+ *   get:
  *     summary: Fetch subreddit and Google Trends data
  *     description: Retrieve popular subreddits and Google Trends data related to a specific search query.
  *     tags:
