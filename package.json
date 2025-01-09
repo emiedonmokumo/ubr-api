@@ -24,6 +24,7 @@
     "mongoose": "^8.9.0",
     "newsapi": "^2.4.1",
     "nodemailer": "^6.9.16",
+    "openai": "^4.77.4",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "reddit": "^1.2.1",

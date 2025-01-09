@@ -133,17 +133,17 @@ export const searchTrends = async (req, res) => {
 
     try {
         // Fetch popular subreddits based on the query
-        // const subredditTrends = await reddit.get(`/r/${q}`, { limit: 20 });
+        const subredditTrends = await reddit.get(`/r/${q}`, { limit: 20 });
         const result = await googleTrends.interestOverTime({ keyword: q });
 
         const googleTrendsData = JSON.parse(result);
         // console.log(googleTrendsData)
 
         // Send the uniform combined response
-        res.status(200).json(googleTrendsData);
+        res.status(200).json({ reddit: subredditTrends.data.children, googleTrends: googleTrendsData });
     } catch (error) {
         // Handle any errors that occur during the fetch or processing
-        console.error('Error fetching trends:', error);
+        // console.error('Error fetching trends:', error);
         res.status(500).json({
             error: error.message || 'An unexpected error occurred while fetching trends.',
         });

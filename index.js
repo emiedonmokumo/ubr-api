@@ -7,6 +7,7 @@ import userRoute from './routes/userRoute.js'
 import trendsRoute from './routes/trendsRoute.js'
 import stripeRoute from './routes/stripeRoute.js';
 import subscriptionRoute from './routes/subscriptionRoute.js';
+import testRoute from './routes/testRoute.js'
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import cors from 'cors';
@@ -95,6 +96,7 @@ app.use('/api/auth', authRoute);
 app.use('/api/trends', trendsRoute);
 app.use('/api/stripe', stripeRoute);
 app.use('/api/subscription', subscriptionRoute)
+app.use('/api/test', testRoute)
 
 // Start the server
 app.listen(PORT, () => {

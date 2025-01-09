@@ -324,8 +324,8 @@ router.get('/daily', authenticate, dailyTrends)
  * @swagger
  * /api/trends/search:
  *   post:
- *     summary: Fetch subreddit trends
- *     description: Retrieve popular subreddits related to a specific search query.
+ *     summary: Fetch subreddit and Google Trends data
+ *     description: Retrieve popular subreddits and Google Trends data related to a specific search query.
  *     tags:
  *       - Trends
  *     security:
@@ -343,7 +343,46 @@ router.get('/daily', authenticate, dailyTrends)
  *                 example: "technology"
  *     responses:
  *       200:
- *         description: Successfully retrieved trends.
+ *         description: Successfully retrieved subreddit and Google Trends data.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 reddit:
+ *                   type: array
+ *                   description: List of subreddit trend objects.
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       kind:
+ *                         type: string
+ *                         example: "t3"
+ *                       data:
+ *                         type: object
+ *                         properties:
+ *                           title:
+ *                             type: string
+ *                             example: "Breaking News in Technology"
+ *                           url:
+ *                             type: string
+ *                             example: "https://www.reddit.com/r/technology/comments/abcd123"
+ *                           score:
+ *                             type: integer
+ *                             example: 150
+ *                           num_comments:
+ *                             type: integer
+ *                             example: 20
+ *                 googleTrends:
+ *                   type: object
+ *                   description: Google Trends data for the query.
+ *                   properties:
+ *                     date:
+ *                       type: string
+ *                       example: "2025-01-01"
+ *                     value:
+ *                       type: integer
+ *                       example: 75
  *       400:
  *         description: Bad request. Query parameter 'q' is required in the request body.
  *         content:
@@ -351,7 +390,7 @@ router.get('/daily', authenticate, dailyTrends)
  *             schema:
  *               type: object
  *               example:
- *                 error: "A search query ('q') is required in the request body."
+ *                 error: "A search query ('q') is required."
  *       500:
  *         description: Internal server error.
  *         content:
@@ -361,7 +400,7 @@ router.get('/daily', authenticate, dailyTrends)
  *               example:
  *                 error: "An unexpected error occurred while fetching trends."
  */
-router.post('/search', authenticate, searchTrends)
+router.get('/search', authenticate, searchTrends)
 
 
 /**
