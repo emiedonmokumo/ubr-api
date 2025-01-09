@@ -323,7 +323,7 @@ router.get('/daily', authenticate, dailyTrends)
 /**
  * @swagger
  * /api/trends/search:
- *   get:
+ *   post:
  *     summary: Fetch subreddit and Google Trends data
  *     description: Retrieve popular subreddits and Google Trends data related to a specific search query.
  *     tags:
@@ -384,7 +384,7 @@ router.get('/daily', authenticate, dailyTrends)
  *                       type: integer
  *                       example: 75
  *       400:
- *         description: Bad request. Query parameter 'q' is required in the request body.
+ *         description: Bad request. Query parameter 'q' is required.
  *         content:
  *           application/json:
  *             schema:
@@ -400,7 +400,7 @@ router.get('/daily', authenticate, dailyTrends)
  *               example:
  *                 error: "An unexpected error occurred while fetching trends."
  */
-router.get('/search', authenticate, searchTrends)
+router.post('/search', authenticate, searchTrends)
 
 
 /**
