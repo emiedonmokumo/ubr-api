@@ -97,8 +97,8 @@ router.delete('/', authenticate, deleteUser)
 router.get('/', authenticate, getUser)
 
 /**
-* @swagger
-/api/user/bio:
+ * @swagger
+ * /api/user/bio:
  *   put:
  *     summary: Update user bio
  *     security:
@@ -134,6 +134,9 @@ router.get('/', authenticate, getUser)
  *                 type: string
  *               timeFormat:
  *                 type: string
+ *               image:
+ *                 type: string
+ *                 description: Base64-encoded image string to upload
  *     responses:
  *       200:
  *         description: Bio updated successfully
@@ -177,6 +180,15 @@ router.get('/', authenticate, getUser)
  *                           type: string
  *                         timeFormat:
  *                           type: string
+ *                     image:
+ *                       type: object
+ *                       properties:
+ *                         url:
+ *                           type: string
+ *                           description: URL of the uploaded image
+ *                         public_id:
+ *                           type: string
+ *                           description: Public ID of the uploaded image on Cloudinary
  *       400:
  *         description: No valid fields to update
  *       404:
@@ -184,6 +196,7 @@ router.get('/', authenticate, getUser)
  *       500:
  *         description: Internal server error
  */
+
 router.put('/bio', authenticate, updateBio)
 
 export default router

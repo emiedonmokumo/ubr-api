@@ -70,13 +70,6 @@ export const createAccount = async (req, res) => {
         // Send the verification email
         await transporter.sendMail(mailOptions);
 
-
-        // If authentication is successful, generate and send the token
-        const token = jwt.sign(
-            { id: newUser._id }, // Payload (user info)
-            process.env.JWT_SECRET, // Secret key
-            { expiresIn: '1h' } // Expiration time (optional)
-        );
         res.status(200).json({ message: 'Account created and code sent!' });
     } catch (error) {
         console.log(error)
@@ -134,7 +127,9 @@ export const googleAuth = async (req, res) => {
                     timeFormat: '',
                 },
                 email: payload.email,
-                image: payload.picture,
+                image: {
+                    url: payload.picture
+                },
                 authType: 'Google',
                 verified: true
             })

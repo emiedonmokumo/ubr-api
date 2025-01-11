@@ -42,7 +42,12 @@ const userSchema = new Schema({
         required: [true, 'Email is required'],
     },
     image: {
-        type: String,
+        url: {
+            type: String,
+        },
+        public_id: {
+            type: String,
+        }
     },
     password: {
         type: String,

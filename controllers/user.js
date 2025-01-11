@@ -53,7 +53,9 @@ export const updateBio = async (req, res) => {
         if (dateFormat) bioUpdate['bio.dateFormat'] = dateFormat;
         if (timeFormat) bioUpdate['bio.timeFormat'] = timeFormat;
 
-        let imageUri;
+        console.log(bioUpdate)
+
+        let imageUpdate;
 
         // Handle image upload if the image field exists
         if (image) {
@@ -64,22 +66,20 @@ export const updateBio = async (req, res) => {
 
             console.log(result)
 
-            imageUri = result.secure_url; // Save the image URL to the bio
+            imageUpdate = {
+                url: result.secure_url,   // Save the image URL
+                public_id: result.public_id, // Save the public ID
+            }; 
             console.log(imageUri)
         }
-
-        // If no valid fields to update
-        // if (Object.keys(bioUpdate).length === 0) {
-        //     return res.status(400).json({ message: 'No valid fields to update' });
-        // }
 
         // Update the user document
         const updatedUser = await User.findByIdAndUpdate(
             req.user.id,
             {
                 $set: {
-                    bioUpdate,
-                    image: imageUri
+                    ...bioUpdate,
+                    image: imageUpdate
                 }
             },
             { new: true, runValidators: true } // Return the updated document with validation
