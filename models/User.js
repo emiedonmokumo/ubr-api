@@ -5,7 +5,6 @@ const userSchema = new Schema({
         name: String,
         about: {
             type: String,
-            trim: true
         },
         interest: {
             trending: {
@@ -17,23 +16,18 @@ const userSchema = new Schema({
         },
         language: {
             type: String,
-            trim: true
         },
         country: {
             type: String,
-            trim: true
         },
         timeZone: {
             type: String,
-            trim: true
         },
         dateFormat: {
             type: String,
-            trim: true
         },
         timeFormat: {
             type: String,
-            trim: true
         }
     },
     email: {

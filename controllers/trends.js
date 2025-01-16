@@ -141,9 +141,10 @@ export const searchTrends = async (req, res) => {
 
         // Send the uniform combined response
         res.status(200).json({ reddit: subredditTrends.data.children, googleTrends: googleTrendsData });
+        // res.status(200).json({ message: 'WOrking' });
     } catch (error) {
         // Handle any errors that occur during the fetch or processing
-        // console.error('Error fetching trends:', error);
+        console.error('Error fetching trends:', error);
         res.status(500).json({
             error: error.message || 'An unexpected error occurred while fetching trends.',
         });

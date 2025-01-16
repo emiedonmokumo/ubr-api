@@ -400,7 +400,7 @@ router.get('/daily', authenticate, dailyTrends)
  *               example:
  *                 error: "An unexpected error occurred while fetching trends."
  */
-router.post('/search', authenticate, searchTrends)
+router.post('/search', searchTrends)
 
 
 /**
